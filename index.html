@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Jaan ❤️</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* HARD BACKGROUND IMAGE */
+#bgImage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 182, 193, 0.45);
+  z-index: 1;
+}
+
+/* Layout */
+body {
+  display: flex;
+}
+
+/* Kiss counter */
+.kisses {
+  width: 200px;
+  background: rgba(255,255,255,0.9);
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 2;
+  position: relative;
+}
+
+#kissCount {
+  font-size: 32px;
+  color: #e6005c;
+}
+
+/* Pages */
+.container {
+  flex: 1;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.container.active {
+  display: flex;
+}
+
+.box {
+  background: rgba(255,255,255,0.95);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  margin: 8px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  background: #e6005c;
+  color: white;
+  cursor: pointer;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  animation: float 7s linear infinite;
+  z-index: 1;
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-110vh); }
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.popup-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORCE-LOADED BACKGROUND IMAGE -->
+<img
+  id="bgImage"
+  src="./bg.jpg"
+  alt="Background"
+  loading="eager"
+  decoding="sync"
+/>
+
+<div class="overlay"></div>
+
+<div class="kisses">
+  No. of kisses<br><br>
+  <span id="kissCount">0</span>
+</div>
+
+<!-- PAGE 1 -->
+<div class="container active"><div class="box">
+<p>Hey Jaan, this is the proposal which I somehow made for you, hope you like it</p>
+<button onclick="nextPage()">Next</button>
+</div></div>
+
+<!-- PAGE 2 -->
+<div class="container"><div class="box">
+<p>You asked me to prove how much I love you, but you forgot that no one has invented a scale that could measure my love.</p>
+<button onclick="nextPage()">Next</button>
+</div></div>
+
+<!-- PAGE 3 -->
+<div class="container"><div class="box">
+<p>The only way I can prove how much I love is from the nickname I call you by, ‘Jaan’</p>
+<button onclick="nextPage()">Next</button>
+</div></div>
+
+<!-- PAGE 4 -->
+<div class="container"><div class="box">
+<p>Now since my Jaanu told me to prove my love, here you go</p>
+<button onclick="nextPage()">Next</button>
+</div></div>
+
+<!-- QUESTION 1 -->
+<div class="container"><div class="box">
+<p>How much do you think I love you?</p>
+<div class="options">
+<button onclick="wrong()">I don’t love you</button>
+<button onclick="wrong()">Thoda</button>
+<button onclick="wrong()">He loves me</button>
+<button onclick="correct()">He is crazy obsessed with me</button>
+</div>
+</div></div>
+
+<!-- QUESTION 2 -->
+<div class="container"><div class="box">
+<p>How much do you think I remember you everyday?</p>
+<div class="options">
+<button onclick="wrong2()">I don’t remember you</button>
+<button onclick="wrong2()">Maybe</button>
+<button onclick="wrong2()">Couple of times</button>
+<button onclick="correct()">You never forgot me to remember you</button>
+</div>
+</div></div>
+
+<!-- QUESTION 3 -->
+<div class="container"><div class="box">
+<p>Do you realize how hot you are for me?</p>
+<div class="options">
+<button onclick="wrong3()">I am not hot</button>
+<button onclick="wrong3()">I am just average</button>
+<button onclick="wrong3()">I am just fair</button>
+<button onclick="correct()">I am so hot that my boyfriend sometimes loses his control</button>
+</div>
+</div></div>
+
+<!-- FINAL PAGE -->
+<div class="container"><div class="box">
+<p>Hoping that you understood how much I love you, now for the final question, Will you be my valentine?</p>
+<button id="noBtn">No</button>
+<button onclick="finalYes()">Yes</button>
+</div></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-content">
+<p id="popupText"></p>
+<button id="popupBtn">Ok</button>
+</div>
+</div>
+
+<script>
+let page = 0;
+let kisses = 0;
+const pages = document.querySelectorAll(".container");
+
+function nextPage() {
+  pages[page].classList.remove("active");
+  page++;
+  pages[page].classList.add("active");
+}
+
+function addKisses(n) {
+  kisses += n;
+  document.getElementById("kissCount").innerText = kisses;
+}
+
+function wrong() {
+  addKisses(100);
+  popup("you are very wrong and now since you underestimated my love I get to kiss you 100 times");
+}
+
+function wrong2() {
+  addKisses(100);
+  popup("Come on Jaan you know me well and now since you underestimated my love I get to kiss you 100 times");
+}
+
+function wrong3() {
+  addKisses(100);
+  popup("Jaanu you should atleast know about yourself and now since you underestimated your own self I get to kiss you 100 times");
+}
+
+function correct() {
+  addKisses(1000);
+  popup("You are absolutely correct, you win 1000 kisses", true);
+}
+
+function popup(text, next=false) {
+  document.getElementById("popupText").innerText = text;
+  document.getElementById("popup").style.display = "flex";
+  document.getElementById("popupBtn").onclick = () => {
+    document.getElementById("popup").style.display = "none";
+    if (next) nextPage();
+  };
+}
+
+function finalYes() {
+  popup("I love you Jaanu, I will try my best to make sure you won’t forget it");
+  document.getElementById("popupBtn").innerText = "Close";
+  document.getElementById("popupBtn").onclick = () => window.close();
+}
+
+/* No button runs away */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * 70 + "%";
+  noBtn.style.top = Math.random() * 70 + "%";
+});
+
+/* Floating hearts */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "❤️";
+  h.style.left = Math.random() * 100 + "%";
+  h.style.fontSize = Math.random() * 20 + 14 + "px";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 7000);
+}, 350);
+</script>
+
+</body>
+</html>
